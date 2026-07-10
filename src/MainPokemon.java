@@ -1,6 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
-public class CL2Varela {
+public class MainPokemon {
     static void main(String[] args) {
         Region kanto = new Region("Kanto", 1, "Warm");
         Pokedex pokedexKanto = new Pokedex();
