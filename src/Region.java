@@ -278,16 +278,7 @@ public class Region {
         }
     }
 
-    //I am a beginner programmer and you are an expert Java programmer. Create a Java method called describeRegion()
-    // for a class named Region. The method should print all the details of the region including nameRegion (String),
-    // climate (String), difficulty (int), trainers in the region (Trainer[] array), and wild Pokémon in the region
-    // (Pokemon[] array). The method must be simple and easy to understand at an Intro to Computer Science level.
-    // Do not use advanced Java concepts .and conditionals (if statements), and print the information in a clean and readable format.
-    // Preconditions:
-    // The Region object is already created, the arrays trainerInRegion and wildPokemonInRegion may contain null values,
-    // and Trainer and Pokemon classes have a getName() method. Postconditions: The method prints all region details to the console,
-    // only valid (non-null) trainers and Pokémon are printed, and the output is clear and organized.
-    // Level: Beginner (Intro to Computer Science). Now generate the Java method describeRegion().
+    // Prints all region details: name, climate, difficulty, trainers, and wild Pokemon.
     public void describeRegion() {
 
         System.out.println("=== Region Details ===");

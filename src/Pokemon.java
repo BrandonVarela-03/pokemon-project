@@ -143,7 +143,7 @@ public class Pokemon {
                 for (int col = 0; col < r.getRegionMap()[row].length; col++) {
                     if (r.getRegionMap()[row][col] != null &&
                             r.getRegionMap()[row][col].equals( p.getName())) {
-                        r.getRegionMap()[row][col] = "--";
+                        r.getRegionMap()[row][col] = null;
                     }
                 }
             }
