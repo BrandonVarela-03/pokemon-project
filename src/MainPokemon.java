@@ -77,7 +77,10 @@ public class MainPokemon {
                             System.out.println("No Pokémon available in Pokédex.");
                             break;
                         }
-                        Pokemon newPokemon = new Pokemon(base.getName(), base.getType(),
+                        Pokemon newPokemon = new Pokemon(
+                                base.getRegion(),
+                                base.getName(),
+                                base.getType(),
                                 base.getLevel(),
                                 base.getHealth(),
                                 base.getAttackDamage()
@@ -376,9 +379,7 @@ public class MainPokemon {
                         System.out.println("Pokémon not found in team.");
                         break;
                     }
-                    System.out.println(selectedPoke.getName() + " is ready to evolve!!");
                     selectedPoke.evolve();
-
                     break;
 
                 case 8:
@@ -451,6 +452,20 @@ public class MainPokemon {
 
     }
     //Helper methods
+
+    //Future newMenu
+    /*
+
+    public static void mainMenu(){
+        System.out.println("|******************************| \n" +
+                " |* Welcome to Poke-Game *| \n" +
+                "|******************************|");
+        System.out.println("Start a new Game(newGame) \n" +
+                "Load Game(loadgame) \n" + "exit"
+                );
+    }
+     */
+
 
 
     public static void printMenu() {
