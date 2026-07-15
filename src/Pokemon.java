@@ -3,6 +3,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Pokemon {
+    private String region;
     private String name;
     private String type;
     private int level;
@@ -10,7 +11,8 @@ public class Pokemon {
     private double attackDamage;
 
     //Constructor with name and type
-    public Pokemon(String newName, String newType) {
+    public Pokemon(String newRegion,String newName, String newType) {
+        this.region = newRegion;
         this.name = newName;
         this.type = newType;
         this.level = 1;
@@ -19,7 +21,8 @@ public class Pokemon {
     }
 
     // Constructor with all attributes.
-    public Pokemon(String newName, String newType, int newLevel, int newHealth, double newAttackDamage) {
+    public Pokemon(String newRegion,String newName, String newType, int newLevel, int newHealth, double newAttackDamage) {
+        this.region = newRegion;
         this.name = newName;
         this.type = newType;
         this.level = newLevel;
@@ -28,6 +31,10 @@ public class Pokemon {
     }
 
     // getters and setters for all the attributes.
+    public String getRegion(){ return region;}
+
+    public void setRegion(String region) {}
+
     public String getName() {
         return name;
     }
@@ -96,15 +103,27 @@ public class Pokemon {
 
     public void evolve() {
         try {
-            Scanner scanner = new Scanner(new File("Evolve.txt"));
+            Scanner scanner = new Scanner(new File("Evos.txt"));
             while (scanner.hasNext()){
                 String current = scanner.next();
-                String next = scanner.next();
+                String nextName = scanner.next();
                 if (current.equals(name)){
-                    name = next;
-                    health += 20;
-                    attackDamage += 5;
-                    System.out.println("Your Pokémon has evolved into " + name + "!");
+                    String newType = scanner.next();
+                    int newHealth = scanner.nextInt();
+                    int newAttack = scanner.nextInt();
+                    int lvlRequired = scanner.nextInt();
+                    name = nextName;
+                    health = newHealth;
+                    attackDamage = newAttack;
+                    if (level >= lvlRequired){
+                        System.out.println("Your Pokémon has evolved into " + name + "!");
+                        scanner.close();
+                    }
+                    if (level < lvlRequired) {
+                        System.out.println(name + " isn't high enough level to evolve yet (needs level " + lvlRequired + ").");
+                        scanner.close();
+                        return;
+                    }
                     scanner.close();
                     return;
                 }

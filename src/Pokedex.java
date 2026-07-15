@@ -1,14 +1,12 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 public class Pokedex {
-    private Pokemon[] pokemons;
-    private int count;
+    private ArrayList<Pokemon> pokemons;
 
     public Pokedex() {
-        this.pokemons = new Pokemon[50];
-        this.count = 0;
-
+        this.pokemons = new ArrayList<Pokemon>();
     }
 
     public void loadData(){
@@ -17,17 +15,14 @@ public class Pokedex {
         try {
             Scanner file = new Scanner(new File("pokedex.txt"));
             while (file.hasNext()){
+                String region = file.next();
                 String name = file.next();
                 String type = file.next();
                 int health = file.nextInt();
                 double attackDamage = file.nextDouble();
                 int level = rand.nextInt(10) + 1;;
-                Pokemon pokemon = new Pokemon(name,type,level,health,attackDamage);
-
-                if (count < pokemons.length){
-                    pokemons[count] = pokemon;
-                    count++;
-                }
+                Pokemon pokemon = new Pokemon(region,name,type,level,health,attackDamage);
+                pokemons.add(pokemon);
 
             }file.close();
             System.out.println("File loaded successfully");
@@ -36,12 +31,12 @@ public class Pokedex {
         }
     }
     public Pokemon getRandomPokemon() {
-        if (count == 0) {
+        if (pokemons.isEmpty()) {
             return null;
         }
         Random rand = new Random();
-        int index = rand.nextInt(count); // número entre 0 y count-1
-        return pokemons[index];
+        int index = rand.nextInt(pokemons.size());
+        return pokemons.get(index);
     }
 
 
