@@ -455,7 +455,7 @@ public class MainPokemon {
 
     public static void printMenu() {
         System.out.println("|******************************| \n" +
-                " |* Welcome to Poke-Miner *| \n" +
+                " |* Welcome to Poke-Game *| \n" +
                 "|******************************|");
         System.out.println("Options: \n" +
                 "1. Show Everything in Region \n" +
