@@ -1,16 +1,57 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.io.Serializable;
+
+import static javax.swing.UIManager.getInt;
+
 public class MainPokemon {
-    static void main(String[] args) {
-        Region kanto = new Region("Kanto", 1, "Warm");
+    static Region kanto;
+    static Pokedex pokedexKanto;
+
+    public static void main(String[] args) {
+        // switch
+        Scanner choiceMenu = new Scanner((System.in));
+        int choice2 = 0;
+        boolean runP = true;
+
+        while (runP) {
+            mainMenu();
+            choice2 = getInt(choiceMenu);
+            switch (choice2) {
+                case 1:
+                    newGame();
+                    break;
+                case 2:
+
+                    break;
+
+                case 3:
+                    System.out.println(" Game closed.");
+                    runP = false;
+                    break;
+            }
+        }
+    }
+// Run newGame method
+    public static void newGame() {
+        kanto = new Region("Kanto", 1, "Warm");
         Pokedex pokedexKanto = new Pokedex();
         pokedexKanto.loadData();
+        loopGame();
+    }
+    // saveGameOption
+    public static void saveGame(){
 
-        // Variables for Switch
+    }
+    public static void loadGame(){
+
+    }
+
+    // Loop Game, the main program
+        public static void loopGame(){
         Scanner input = new Scanner(System.in);
         int choice = 0;
         boolean running = true;
-
         while (running) {
             printMenu();
             choice = getInt(input);
@@ -20,7 +61,6 @@ public class MainPokemon {
                     kanto.describeRegion();
                     break;
                 case 2:
-
                     System.out.println("Would you like to add or remove a trainer to/from the region? ");
                     String option = input.next();
                     if (option.equals("add") || option.equals("Add")) {
@@ -77,7 +117,10 @@ public class MainPokemon {
                             System.out.println("No Pokémon available in Pokédex.");
                             break;
                         }
-                        Pokemon newPokemon = new Pokemon(base.getName(), base.getType(),
+                        Pokemon newPokemon = new Pokemon(
+                                base.getRegion(),
+                                base.getName(),
+                                base.getType(),
                                 base.getLevel(),
                                 base.getHealth(),
                                 base.getAttackDamage()
@@ -335,8 +378,6 @@ public class MainPokemon {
                     } else System.out.println("Invalid input.");
 
                     break;
-
-
                 case 7:
                     System.out.println("Which trainer?");
                     String openTeam = input.next();
@@ -376,9 +417,7 @@ public class MainPokemon {
                         System.out.println("Pokémon not found in team.");
                         break;
                     }
-                    System.out.println(selectedPoke.getName() + " is ready to evolve!!");
                     selectedPoke.evolve();
-
                     break;
 
                 case 8:
@@ -387,8 +426,7 @@ public class MainPokemon {
                     if (!onlyString(mapMove)) {
                         System.out.println("Invalid input. Returning to main menu.");
                         break;
-                    }
-                    else if (mapMove.equals("view") || mapMove.equals("View")) {
+                    } else if (mapMove.equals("view") || mapMove.equals("View")) {
                         System.out.println("Displaying map:");
                         kanto.printMap();
                         break;
@@ -432,14 +470,24 @@ public class MainPokemon {
 
                     } else {
                         System.out.println("Invalid input.");
-            }
+                    }
                     break;
 
                 case 9:
+                    System.out.println("You want save the game(yes/no)");
+                    String yes_No = input.next();
+                    onlyString(yes_No);
+                    if (!onlyString(yes_No)) {
+                        System.out.println("Invalid input. Returning to main menu.");
+                        break;
+                    }
+                    if (yes_No.equalsIgnoreCase("yes")){
+                        saveGame();
+                    }if (yes_No.equalsIgnoreCase("no")){
                     System.out.println("Game over!");
                     running = false;
                     break;
-
+                    }
                 default:
                     System.out.println("Invalid choice.");
 
@@ -452,7 +500,17 @@ public class MainPokemon {
     }
     //Helper methods
 
+    //Future newMenu
+    public static void mainMenu() {
+        System.out.println("|******************************| \n" +
+                " |* Welcome to Poke-Game *| \n" +
+                "|******************************|");
+        System.out.println("1- Start a new Game \n" +
+                "2- Load Game \n" + "3- exit"
+        );
+    }
 
+    // RunMenu
     public static void printMenu() {
         System.out.println("|******************************| \n" +
                 " |* Welcome to Poke-Game *| \n" +
@@ -466,7 +524,7 @@ public class MainPokemon {
                 "6. List Pokémon in Trainer/Training \n" +
                 "7. Evolve Trainers' Pokémon \n" +
                 "8. View/Move on Region Map \n" +
-                "9. Exit \n" +
+                "9. SaveGame/ExitGame \n" +
                 "|******************************| \n" +
                 "Select option: ");
 
@@ -492,5 +550,5 @@ public class MainPokemon {
         }
         return true;
     }
-
 }
+
