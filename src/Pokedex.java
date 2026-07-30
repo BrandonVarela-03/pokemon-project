@@ -1,8 +1,10 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.Random;
-public class Pokedex {
+public class Pokedex implements Serializable {
+    private static final long serialVersionUID = 1L;
     private ArrayList<Pokemon> pokemons;
 
     public Pokedex() {

@@ -1,8 +1,10 @@
 import java.io.File;
 import java.util.Random;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Pokemon {
+public class Pokemon implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String region;
     private String name;
     private String type;
