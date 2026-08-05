@@ -1,6 +1,12 @@
 import java.util.Random;
 import java.util.Scanner;
 import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.File;
 
 import static javax.swing.UIManager.getInt;
 
@@ -22,6 +28,8 @@ public class MainPokemon {
                     newGame();
                     break;
                 case 2:
+                    System.out.println("");
+                    loadGame();
 
                     break;
 
@@ -32,19 +40,106 @@ public class MainPokemon {
             }
         }
     }
-// Run newGame method
+
+    // Run newGame method
     public static void newGame() {
         kanto = new Region("Kanto", 1, "Warm");
-        Pokedex pokedexKanto = new Pokedex();
+        pokedexKanto = new Pokedex();
         pokedexKanto.loadData();
         loopGame();
     }
+
     // saveGameOption
-    public static void saveGame(){
+    public static void saveGame() {
+        boolean hasTrainers = false;
+        for (int i = 0; i < kanto.getTrainerInRegion().length; i++) {
+            if (kanto.getTrainerInRegion()[i] != null) {
+                hasTrainers = true;
+                break;
+            }
+        }
 
+        boolean hasWildPokemon = false;
+        for (int i = 0; i < kanto.getWildPokemonInRegion().length; i++) {
+            if (kanto.getWildPokemonInRegion()[i] != null) {
+                hasWildPokemon = true;
+                break;
+            }
+        }
+
+        if (!hasTrainers && !hasWildPokemon) {
+            System.out.println("Nothing to save yet — add a trainer or wild Pokémon first. Returning to main menu.");
+            return;
+        }
+
+        File savesDir = new File("saves");
+        if (!savesDir.exists()) {
+            savesDir.mkdir();
+        }
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter a name for this save: ");
+        String saveName = input.next();
+        if (!validSaveName(saveName)) {
+            System.out.println("Invalid save name. Returning to menu.");
+            return;
+        }
+
+        File saveFile = new File(savesDir, saveName + ".dat");
+        if (saveFile.exists()) {
+            System.out.println("A save with that name already exists. Overwrite? (yes/no)");
+            if (!input.next().equalsIgnoreCase("yes")) {
+                System.out.println("Save cancelled.");
+                return;
+            }
+        }
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(saveFile))) {
+            out.writeObject(kanto);
+            System.out.println("Game saved as \"" + saveName + "\".");
+        } catch (IOException e) {
+            System.out.println("Error saving game: " + e.getMessage());
+        }
     }
-    public static void loadGame(){
+    public static void loadGame() {
+        File savesDir = new File("saves");
+        File[] saveFiles = savesDir.exists()
+                ? savesDir.listFiles((dir, name) -> name.endsWith(".dat"))
+                : null;
 
+        if (saveFiles == null || saveFiles.length == 0) {
+            System.out.println("No saved games found.");
+            return;
+        }
+
+        System.out.println("Available saves:");
+        for (int i = 0; i < saveFiles.length; i++) {
+            String nameOnly = saveFiles[i].getName().replace(".dat", "");
+            System.out.println((i + 1) + ". " + nameOnly);
+        }
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the number of the save you want to load: ");
+        int choice = getInt(input);
+
+        if (choice < 1 || choice > saveFiles.length) {
+            System.out.println("Invalid selection. Returning to menu.");
+            return;
+        }
+
+        File chosenFile = saveFiles[choice - 1];
+
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(chosenFile))) {
+            kanto = (Region) in.readObject();
+            pokedexKanto = new Pokedex();
+            pokedexKanto.loadData();
+            System.out.println("Game \"" + chosenFile.getName().replace(".dat", "") + "\" loaded!");
+            loopGame();
+        } catch (IOException e) {
+            System.out.println("Error loading game: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Save file is corrupted or from an incompatible version.");
+        }
     }
 
     // Loop Game, the main program
@@ -483,11 +578,13 @@ public class MainPokemon {
                     }
                     if (yes_No.equalsIgnoreCase("yes")){
                         saveGame();
+                        running = false;
                     }if (yes_No.equalsIgnoreCase("no")){
                     System.out.println("Game over!");
                     running = false;
                     break;
                     }
+                    break;
                 default:
                     System.out.println("Invalid choice.");
 
@@ -550,5 +647,16 @@ public class MainPokemon {
         }
         return true;
     }
+    public static boolean validSaveName(String name) {
+        if (name.trim().length() == 0) {
+            return false;
+        }
+        String invalidChars = "/\\:*?\"<>|";
+        for (int i = 0; i < name.length(); i++) {
+            if (invalidChars.indexOf(name.charAt(i)) != -1) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
-
