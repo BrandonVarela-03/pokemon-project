@@ -1,11 +1,13 @@
 import java.util.Random;
-public class Region {
-    private String nameRegion;
-    private String climate;
-    private int difficulty;
-    private Trainer[] trainerInRegion;
-    private Pokemon[] wildPokemonInRegion;
-    private String[][] regionMap;
+import java.io.Serializable;
+public class Region implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public String nameRegion;
+    public String climate;
+    public int difficulty;
+    public Trainer[] trainerInRegion;
+    public Pokemon[] wildPokemonInRegion;
+    public String[][] regionMap;
 
     // first contrutcor with name diff and climate
     public Region(String newNameRegion, int newDifficulty, String newClimate) {
