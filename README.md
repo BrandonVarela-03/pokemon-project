@@ -30,7 +30,7 @@ This project is a Java-based Pokémon simulation that allows users to create tra
 
 - Object-Oriented Programming (OOP)
 - Classes and Objects
-- Arrays
+- Array List
 - Methods
 - Constructors
 - File Handling
