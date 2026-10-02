@@ -8,11 +8,14 @@ This project is a Java-based Pokémon simulation that allows users to create tra
 
 - Create and manage Trainers
 - Create and manage Pokémon
+- Catch rate
 - Pokémon evolution system using external files
 - Region exploration and trainer movement
 - Wild Pokémon generation
 - Team management
 - File reading for Pokémon and evolution data
+- Save and load game progress
+- Pokemon of three diferrent regions Kanto Jhoto Hoenn
 
 ## How to Run
 
@@ -38,8 +41,6 @@ This project is a Java-based Pokémon simulation that allows users to create tra
 ## Future Improvements
 
 - Pokémon battle system
-- Save and load game progress
-- Additional Pokémon and regions
 - Improved user interface
 - Advanced data structures
 
